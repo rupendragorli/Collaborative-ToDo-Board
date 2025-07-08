@@ -12,7 +12,6 @@ const TaskCard = ({ task, index, users, onEdit, onDelete, onSmartAssign }) => {
     listeners,
     setNodeRef,
     transform,
-    transition,
     isDragging,
   } = useSortable({ id: task._id });
 

@@ -14,13 +14,12 @@ const KanbanBoard = ({ user, onLogout }) => {
   const [activities, setActivities] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
-  const [socket, setSocket] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Initialize socket connection
     const newSocket = io('http://localhost:5000');
-    setSocket(newSocket);
+    // setSocket(newSocket); // This line is removed as per the edit hint
   
     // Socket event listeners
     newSocket.on('taskCreated', (task) => {
