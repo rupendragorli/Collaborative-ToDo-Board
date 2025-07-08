@@ -1,0 +1,386 @@
+.task-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+  user-select: none;
+  touch-action: none;
+  transform-origin: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.task-drag-area {
+  cursor: grab;
+  position: relative;
+  z-index: 1;
+}
+
+.task-drag-area:active {
+  cursor: grabbing;
+}
+
+.task-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.task-card.dragging {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  cursor: grabbing;
+  z-index: 1000;
+  opacity: 0.9;
+  transform: scale(1.05) !important;
+}
+
+.task-card.holding {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  opacity: 0.95;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.task-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  flex: 1;
+  margin-right: 8px;
+  line-height: 1.4;
+}
+
+.task-title:hover {
+  cursor: grabbing;
+}
+
+.task-title:active {
+  cursor: grabbing;
+}
+
+.task-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 102;
+  pointer-events: auto;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+  z-index: 101;
+  position: relative;
+}
+
+.action-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.edit-btn:hover {
+  background: rgba(52, 152, 219, 0.2);
+}
+
+.delete-btn:hover {
+  background: rgba(231, 76, 60, 0.2);
+}
+
+.smart-assign-btn:hover {
+  background: rgba(46, 204, 113, 0.2);
+}
+
+.task-description {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+  word-wrap: break-word;
+  position: relative;
+  z-index: 1;
+}
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.task-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.priority-badge {
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.assigned-user {
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.task-date {
+  color: #999;
+  font-size: 0.75rem;
+}
+
+/* Enhanced animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cardFlip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(90deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Card flip animation for special effects */
+.task-card.flip {
+  animation: cardFlip 0.6s ease-in-out;
+}
+
+/* Pulse animation for smart assign */
+.task-card.pulse {
+  animation: pulse 1s ease-in-out;
+}
+
+/* Bounce animation for successful drop */
+.task-card.bounce {
+  animation: bounce 0.6s ease-in-out;
+}
+
+/* Drop zone highlight */
+.task-card.drop-zone {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  border: 2px solid #667eea;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .task-card {
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .task-title {
+    font-size: 0.9rem;
+  }
+  
+  .task-description {
+    font-size: 0.8rem;
+  }
+  
+  .action-buttons {
+    gap: 3px;
+  }
+  
+  .action-btn {
+    font-size: 14px;
+    padding: 3px;
+  }
+  
+  .task-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .task-meta {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .task-card {
+    padding: 10px;
+    margin-bottom: 6px;
+  }
+  
+  .task-title {
+    font-size: 0.85rem;
+  }
+  
+  .task-description {
+    font-size: 0.75rem;
+  }
+  
+  .action-btn {
+    font-size: 12px;
+    padding: 2px;
+  }
+} 
+
+/* Mobile-specific styles for action buttons */
+@media (max-width: 768px) {
+  .task-card {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .task-card:active {
+    cursor: grabbing;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .task-card.dragging {
+    /* Enhanced mobile drag styling */
+    transform: scale(1.05) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+    opacity: 0.9;
+    z-index: 9999;
+    position: relative;
+    /* Allow natural touch behavior */
+    touch-action: manipulation;
+  }
+
+  .task-drag-area {
+    /* Ensure drag area doesn't interfere with touch */
+    touch-action: manipulation;
+  }
+
+  .action-buttons {
+    position: static;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  
+  .action-btn {
+    font-size: 20px;
+    padding: 8px;
+    min-width: 40px;
+    min-height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .action-btn:active {
+    transform: scale(0.9);
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .task-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+} 

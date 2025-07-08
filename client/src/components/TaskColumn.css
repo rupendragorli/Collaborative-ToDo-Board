@@ -1,0 +1,166 @@
+.task-column {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  min-width: 300px;
+  max-width: 350px;
+  height: fit-content;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.task-column:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-left: 4px solid;
+}
+
+.column-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.task-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.column-content {
+  min-height: 100px;
+  position: relative;
+}
+
+.column-content:empty::after {
+  content: 'Drop tasks here';
+  display: block;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  padding: 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* Prevent layout shifts during drag */
+.column-content > * {
+  transform-origin: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.column-content.dragging-over {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+  animation: dropZonePulse 0.6s ease-in-out;
+}
+
+@keyframes dropZonePulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes columnSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.task-column {
+  animation: columnSlideIn 0.4s ease-out;
+}
+
+/* Custom scrollbar */
+.column-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.column-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.column-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.column-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .task-column {
+    min-width: 100%;
+    max-width: none;
+    margin-bottom: 15px;
+  }
+  
+  .column-header {
+    padding: 15px;
+  }
+  
+  .column-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .column-content {
+    padding: 10px;
+    min-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .task-column {
+    margin-bottom: 10px;
+  }
+  
+  .column-header {
+    padding: 12px;
+  }
+  
+  .column-header h3 {
+    font-size: 1rem;
+  }
+  
+  .task-count {
+    padding: 3px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .column-content {
+    padding: 8px;
+    min-height: 120px;
+  }
+} 
