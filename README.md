@@ -1,187 +1,90 @@
-# Collaborative Real-Time To-Do Board
+# Collaborative ToDo Board
 
-A full-stack, real-time collaborative Kanban board where multiple users can manage tasks, see changes live, and resolve conflicts—similar to a minimal Trello board, but with custom business logic.
+## Project Overview
+Collaborative ToDo Board is a real-time Kanban-style task management application that allows multiple users to manage, assign, and track tasks collaboratively. It features live updates, activity logs, smart task assignment, and conflict resolution for seamless teamwork.
 
----
+## Tech Stack
+- **Frontend:** React, @dnd-kit/core (for drag-and-drop), Socket.IO Client, CSS
+- **Backend:** Node.js, Express, MongoDB (Mongoose), Socket.IO
+- **Deployment:**
+  - Backend: Render.com
+  - Frontend: Netlify
 
-## 🚀 Project Overview
-
-This app allows users to:
-- Register and log in securely
-- Create, edit, assign, and drag tasks between columns (Todo, In Progress, Done)
-- See all changes in real time (across all users)
-- View a live-updating activity log of the last 20 actions
-- Use “Smart Assign” to automatically assign tasks to the user with the fewest active tasks
-- Resolve conflicts if two users edit the same task at the same time
-
----
-
-## 🛠 Tech Stack
-
-- **Frontend:** React (no UI template libraries), @dnd-kit for drag-and-drop, Socket.IO client
-- **Backend:** Node.js, Express, MongoDB (Mongoose), Socket.IO, JWT for auth, bcrypt for password hashing
-- **Deployment:** (You will fill in your deployment links)
-- **Demo Video:** (You will fill in your video link)
+## Live Demo & Links
+- **Backend:** [https://collaborative-todo-board-9paf.onrender.com/](https://collaborative-todo-board-9paf.onrender.com/)
+- **Frontend:** [https://real-time-todo-board.netlify.app/login](https://real-time-todo-board.netlify.app/login)
+- **Demo Video:** [Watch on Loom](https://www.loom.com/share/7c0402193ea54fb89b0c0c2443a9417f?sid=9d1394ff-dc1c-46ea-8665-188e67556244)
 
 ---
 
-## 📦 Features List
+## Setup & Installation
 
-- **User Registration & Login:** Secure, JWT-based, hashed passwords
-- **Kanban Board:** 3 columns (Todo, In Progress, Done), drag-and-drop tasks, assign to users
-- **Task Management:** Title, description, assigned user, status, priority; unique title validation
-- **Smart Assign:** Assigns task to user with fewest active (non-done) tasks
-- **Real-Time Sync:** All changes (tasks, assignments, activity log) update live for all users
-- **Activity Log:** Last 20 actions, live-updating, shows who did what and when
-- **Conflict Handling:** If two users edit the same task, both are prompted to resolve (merge/overwrite)
-- **Custom Animations:** Smooth drag/drop, card bounce, responsive design
-- **No UI Frameworks:** 100% custom CSS, works on desktop and mobile
-
----
-
-## 🖥️ Screenshots
-
-*(Add screenshots of your Kanban board, activity log, and conflict resolution modal here)*
-
----
-
-## 📝 Setup & Installation
+### Prerequisites
+- Node.js (v14+ recommended)
+- npm or yarn
+- MongoDB (local or Atlas)
 
 ### 1. Clone the Repository
-
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+git clone <your-repo-url>
+cd ToDoProject
 ```
 
 ### 2. Backend Setup
-
 ```bash
 cd server
 npm install
+# Create a .env file if needed for MongoDB URI and JWT secret
+# Example .env:
+# MONGO_URI=mongodb://localhost:27017/todoproject
+# JWT_SECRET=your_jwt_secret
+npm start
 ```
-
-- Create a `.env` file in the `server` directory with:
-  ```
-  MONGO_URI=your_mongodb_connection_string
-  JWT_SECRET=your_jwt_secret
-  ```
-- Or edit `server/config.js` to set your MongoDB URI and JWT secret.
-
-- Start the backend:
-  ```bash
-  npm run dev
-  # or
-  npm start
-  ```
+The backend will run on `http://localhost:5000` by default.
 
 ### 3. Frontend Setup
-
 ```bash
 cd ../client
 npm install
 npm start
 ```
-
-- The React app will run on [http://localhost:3000](http://localhost:3000) and proxy API requests to the backend.
-
----
-
-## 🌐 Deployment
-
-- **Frontend:** Deploy `client` to Vercel, Netlify, or similar.
-- **Backend:** Deploy `server` to Render, Railway, Cyclic, or Heroku.
-- Set environment variables for production in your deployment dashboard.
+The frontend will run on `http://localhost:3000` by default.
 
 ---
 
-## 🔑 Environment Variables
+## Features & Usage Guide
 
-**Backend (`server/.env`):**
-- `MONGO_URI` — MongoDB connection string
-- `JWT_SECRET` — Secret for JWT signing
+- **User Authentication:** Register and log in to access the board.
+- **Kanban Board:** Tasks are organized in Todo, In Progress, and Done columns.
+- **Real-Time Collaboration:** All changes are synced instantly across all users via Socket.IO.
+- **Task Management:** Create, edit, delete, and assign tasks to users.
+- **Drag-and-Drop:** Move tasks between columns (if enabled) or use the "Mark as Done" button.
+- **Activity Log:** See a real-time feed of all actions (task creation, updates, deletions, assignments).
+- **Smart Assign:** Assigns a task to the user with the fewest non-done tasks.
+- **Conflict Handling:** If two users edit the same task simultaneously, a conflict resolution modal appears to merge or choose a version.
 
-**Frontend:** No special variables needed unless your backend is not on localhost.
-
----
-
-## 👤 User Model
-
-- `username` (unique, required)
-- `email` (unique, required)
-- `password` (hashed, required)
-
-## 🗂 Task Model
-
-- `title` (unique, required, cannot match column names)
-- `description`
-- `assignedUser` (User reference)
-- `status` (Todo, In Progress, Done)
-- `priority` (Low, Medium, High)
-- `lastModified` (for conflict detection)
-
----
-
-## 🔄 Real-Time & Activity Log
-
-- Uses Socket.IO for live updates on all task and activity changes.
-- Activity log keeps only the 20 most recent actions (add/edit/delete/assign/drag-drop).
-
----
-
-## 🧠 Smart Assign Logic
-
-When you click “Smart Assign” on a task, the backend finds the user with the fewest active (non-done) tasks and assigns the task to them. See [Logic_Document.md](./Logic_Document.md) for a detailed explanation.
-
----
-
-## ⚔️ Conflict Handling
-
-If two users edit the same task at the same time, the backend detects the conflict and returns both versions. The frontend shows a modal where users can choose to keep their version, the server version, or merge fields. See [Logic_Document.md](./Logic_Document.md) for details and examples.
-
----
-
-## 📝 Usage Guide
-
+### Usage
 1. **Register/Login:** Create an account or log in.
-2. **Create Tasks:** Add tasks with unique titles.
-3. **Drag & Drop:** Move tasks between columns.
-4. **Assign/Smart Assign:** Assign tasks to users or use Smart Assign.
-5. **Activity Log:** See all recent actions live.
-6. **Conflict Resolution:** If prompted, resolve task edit conflicts.
+2. **Create Task:** Click "+ New Task", fill in details, and save.
+3. **Edit/Delete:** Use the pencil or trash icons on each task card.
+4. **Assign/Smart Assign:** Assign manually or click the 🎯 button for Smart Assign.
+5. **Mark as Done:** Click the ✅ button to move a task to Done.
+6. **Activity Log:** View all recent actions in the sidebar.
 
 ---
 
-## 📄 Logic Document
+## Smart Assign Logic
+When you click the 🎯 Smart Assign button on a task, the backend:
+- Counts the number of tasks (not marked as Done) assigned to each user.
+- Assigns the task to the user with the fewest such tasks.
+- Updates all clients in real time.
 
-See [Logic_Document.md](./Logic_Document.md) for:
-- How Smart Assign works
-- How conflict handling works (with examples)
-
----
-
-## 📹 Demo Video
-
-- [Demo Video Link](#) *(Replace with your actual link)*
-
----
-
-## 🛠️ Development Scripts
-
-**Backend:**
-- `npm run dev` — Start backend with nodemon
-- `npm start` — Start backend
-
-**Frontend:**
-- `npm start` — Start React app
-- `npm run build` — Build for production
+## Conflict Handling Logic
+If two users try to update the same task at the same time:
+- The backend detects a conflict using the `lastModified` timestamp.
+- The client receives a conflict response and shows a modal.
+- The user can choose to keep their version, use the server version, or merge both.
 
 ---
 
-## 📝 License
-
-MIT (or your preferred license)
-
----
-
-**For any issues, please open an issue or contact [your email].** 
+**For any issues, please open an issue or contact [rupendragorli0221@gmail.com].** 
