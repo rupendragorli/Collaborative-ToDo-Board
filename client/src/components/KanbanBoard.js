@@ -98,30 +98,43 @@ const KanbanBoard = ({ user, onLogout }) => {
   };
 
   // Update handleDragEnd for @dnd-kit
-  const handleDragEnd = (event) => {
+  const handleDragEnd = async (event) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    // Find the task being dragged
     const task = tasks.find(t => t._id === active.id);
     if (!task) return;
 
-    // Determine new status based on the column it was dropped into
     const statusMapping = {
       'todo': 'Todo',
       'in-progress': 'In Progress',
       'done': 'Done'
     };
     const destinationStatus = statusMapping[over.id];
-    if (!destinationStatus) return;
+    if (!destinationStatus || task.status === destinationStatus) return;
 
-    // Only update if status actually changes
-    if (task.status !== destinationStatus) {
-      const updatedTask = { ...task, status: destinationStatus };
-      // Optimistically update UI
-      setTasks(prev => prev.map(t => t._id === task._id ? updatedTask : t));
-      // Persist to server
-      // (You may want to keep your async update logic here)
+    // Optimistically update UI
+    setTasks(prev => prev.map(t => t._id === task._id ? { ...t, status: destinationStatus } : t));
+
+    // Persist to backend
+    try {
+      const token = localStorage.getItem('token');
+      await fetch(`https://collaborative-todo-board-9paf.onrender.com/api/tasks/${task._id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...task,
+          status: destinationStatus,
+          lastModified: task.lastModified
+        })
+      });
+      // The backend will emit a socket event to update all clients
+    } catch (error) {
+      console.error('Failed to update task status:', error);
+      // Optionally, revert the UI change or show an error
     }
   };
 
