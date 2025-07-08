@@ -18,7 +18,7 @@ const KanbanBoard = ({ user, onLogout }) => {
 
   useEffect(() => {
     // Initialize socket connection
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io('https://collaborative-todo-board-9paf.onrender.com');
     // setSocket(newSocket); // This line is removed as per the edit hint
   
     // Socket event listeners
