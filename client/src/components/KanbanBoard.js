@@ -6,6 +6,8 @@ import TaskModal from './TaskModal';
 import ActivityLog from './ActivityLog';
 import './KanbanBoard.css';
 
+const BACKEND_URL = 'https://collaborative-todo-board-9paf.onrender.com';
+
 const KanbanBoard = ({ user, onLogout }) => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
@@ -74,18 +76,18 @@ const KanbanBoard = ({ user, onLogout }) => {
       };
 
       // Load tasks
-      const tasksResponse = await fetch('/api/tasks', { headers });
+      const tasksResponse = await fetch(`${BACKEND_URL}/api/tasks`, { headers });
       const tasksData = await tasksResponse.json();
       console.log('Loaded tasks:', tasksData.map(t => ({ id: t._id, title: t.title, status: t.status })));
       setTasks(tasksData);
 
       // Load users
-      const usersResponse = await fetch('/api/users', { headers });
+      const usersResponse = await fetch(`${BACKEND_URL}/api/users`, { headers });
       const usersData = await usersResponse.json();
       setUsers(usersData);
 
       // Load activities
-      const activitiesResponse = await fetch('/api/activity', { headers });
+      const activitiesResponse = await fetch(`${BACKEND_URL}/api/activity`, { headers });
       const activitiesData = await activitiesResponse.json();
       setActivities(activitiesData);
 
@@ -149,7 +151,7 @@ const KanbanBoard = ({ user, onLogout }) => {
   const handleDeleteTask = async (taskId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(`${BACKEND_URL}/api/tasks/${taskId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -167,7 +169,7 @@ const KanbanBoard = ({ user, onLogout }) => {
   const handleSmartAssign = async (taskId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/tasks/${taskId}/smart-assign`, {
+      const response = await fetch(`${BACKEND_URL}/api/tasks/${taskId}/smart-assign`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -267,7 +269,7 @@ const KanbanBoard = ({ user, onLogout }) => {
               const method = editingTask ? 'PUT' : 'POST';
               const url = editingTask ? `/api/tasks/${editingTask._id}` : '/api/tasks';
               
-              const response = await fetch(url, {
+              const response = await fetch(`${BACKEND_URL}${url.startsWith('/') ? url : '/' + url}`, {
                 method,
                 headers: {
                   'Authorization': `Bearer ${token}`,
